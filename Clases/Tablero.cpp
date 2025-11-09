@@ -23,6 +23,7 @@ void generarCasillas(Tablero &t) {
 };
 
 void generarJugadores(Tablero &t) {
+    //// CORREGIR ESTA FUNCION;
     Utilidades u;
     int a = 0;
     int b = 0;
