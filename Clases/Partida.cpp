@@ -12,6 +12,8 @@ Partida::Partida() {
 Partida::Partida(int d, int cj) {
     dificultad = d;
     cantidadJugadores = cj;
+    tablero = {d, cj};
+    dado = Dado(d);
 }
 
 int Partida::getCantidadJugadores() {
@@ -36,4 +38,8 @@ Tablero &Partida::getTablero() {
 
 void Partida::setTablero(Tablero t) {
     tablero = t;
+}
+
+Dado &Partida::getDado() {
+    return dado;
 }

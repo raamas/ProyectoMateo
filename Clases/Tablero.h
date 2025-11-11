@@ -6,6 +6,7 @@
 #define PROYECTOMATEO_TABLERO_H
 #include <vector>
 #include "Casilla.h"
+#include "Dado.h"
 #include "Jugador.h"
 using namespace std;
 
@@ -38,9 +39,13 @@ public:
 
     void printTablero();
 
+    void turnoJugador(int i,Dado &d);
+
     friend void generarCasillas(Tablero &t);
 
     friend void generarJugadores(Tablero &t);
+
+    friend void premio(Tablero &obj,int i);
 };
 
 

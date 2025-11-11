@@ -27,12 +27,14 @@ void generarJugadores(Tablero &t) {
     Utilidades u;
     int a = 0;
     int b = 0;
+
+
     for (int i = 0; i < t.cantidadJugadores; i++) {
         auto temp = Jugador(t.tamano, i);
-        while (i> 0 && (&t.casillas[a][b] != t.jugadores[i - 1].getPosicion())) {
+        do {
             a = u.getRandomNumber(0, 1) * (t.tamano - 1);
             b = u.getRandomNumber(0, 1) * (t.tamano - 1);
-        }
+        } while (t.casillas[a][b].getIdJugador() != -1);
         cout << "a: " << a << " b: " << b << endl;
 
 
@@ -93,15 +95,128 @@ void Tablero::printTablero() {
     for (int i = 0; i < tamano; i++) {
         for (int j = 0; j < tamano; j++) {
             if (-1 != casillas[i][j].getIdJugador()) {
-                cout << " " << casillas[i][j].getIdJugador() + 1 << " " << endl;
+                cout << " " << casillas[i][j].getIdJugador() + 1 << " ";
             } else if (1 == casillas[i][j].getEfecto()) {
                 cout << " P ";
             } else if (2 == casillas[i][j].getEfecto()) {
                 cout << " C ";
+            } else if (i == j && i == (tamano) / 2) {
+                cout << " W ";
             } else {
                 cout << " . ";
             }
         }
         cout << endl;
+    }
+}
+
+
+void Tablero::turnoJugador(int i, Dado &d) {
+    vector<int> direcciones;
+    auto jugador = &jugadores[i];
+    if (jugador->getPuntosVida() <= 0) {
+        jugador->setPuntosVida(0);
+        return;
+    }
+    cout << "Puntos de vida: " << jugador->getPuntosVida() << endl;
+    int opc;
+    auto coordenadas = jugador->getPosicion()->getCoordenadas();
+    Casilla *nuevaCasilla;
+
+    cout << "(";
+    for (int j = 0; j < 4; j++) {
+        auto direccion = d.getDirecciones()[j];
+        cout << " " << direccion << " ";
+        if (direccion == 0) {
+            direcciones.push_back(0);
+            continue;
+        }
+        if (j == 0 &&
+            (coordenadas[0] - 1) < 0) {
+            //ya esta arriba
+            direcciones.push_back(0);
+            continue;
+        }
+
+        if (j == 1 &&
+            (coordenadas[0] + 1) > tamano - 1) {
+            // ya esta abajo
+
+            direcciones.push_back(0);
+            continue;
+        }
+
+        if (j == 2 &&
+            (coordenadas[1] - 1) < 0) {
+            // ya esta a la izq
+            direcciones.push_back(0);
+            continue;
+        }
+
+        if (j == 3 &&
+            (coordenadas[1] + 1) > tamano - 1) {
+            // ya esta a la derecha
+            direcciones.push_back(0);
+            continue;
+        }
+        if (jugador->getPuntosVida() < direccion) {
+            direcciones.push_back(0);
+            continue;
+        }
+        direcciones.push_back(1);
+    }
+    cout << ")" << endl;
+
+    if (direcciones[0] == 1) {
+        cout << "1. +1 arriba" << endl;
+    }
+
+    if (direcciones[1] == 1) {
+        cout << "2. +1 abajo" << endl;
+    }
+
+    if (direcciones[2] == 1) {
+        cout << "3. +1 a la izquierda" << endl;
+    }
+
+    if (direcciones[3] == 1) {
+        cout << "4. +1 a la derecha" << endl;
+    }
+    if (direcciones == vector<int>{0, 0, 0, 0}) {
+        cout << "No hay movimientos validos. " << endl;
+        return;
+    }
+    cout << "Ingrese una opcion: ";
+    cin >> opc;
+
+    switch (opc) {
+        case 1: //Arriba
+            nuevaCasilla = &casillas[coordenadas[0] - 1][coordenadas[1]];
+            jugador->mover(nuevaCasilla, d.getDirecciones()[0]);
+            if (nuevaCasilla->getEfecto() == 2) {
+                //premio(*this, i);
+            }
+            break;
+        case 2: //Abajo
+            nuevaCasilla = &casillas[coordenadas[0] + 1][coordenadas[1]];
+            jugador->mover(nuevaCasilla, d.getDirecciones()[1]);
+            if (nuevaCasilla->getEfecto() == 2) {
+                //premio(*this, i);
+            }
+            break;
+        case 3: //izquierda
+            nuevaCasilla = &casillas[coordenadas[0]][coordenadas[1] - 1];
+            jugador->mover(nuevaCasilla, d.getDirecciones()[2]);
+            if (nuevaCasilla->getEfecto() == 2) {
+                //premio(*this, i);
+            }
+            break;
+        case 4:
+            nuevaCasilla = &casillas[coordenadas[0]][coordenadas[1] + 1];
+            jugador->mover(nuevaCasilla, d.getDirecciones()[2]);
+            if (nuevaCasilla->getEfecto() == 2) {
+                //premio(*this, i);
+            }
+            break;
     }
 }

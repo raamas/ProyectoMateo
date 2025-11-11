@@ -16,6 +16,8 @@ class Partida {
     int dificultad;
     Tablero tablero;
     Dado dado;
+
+    int idGanador;
 public:
     Partida();
     Partida(int d, int cj);
@@ -28,6 +30,9 @@ public:
 
     Tablero &getTablero();
     void setTablero(Tablero t);
+
+    Dado &getDado();
+
 
 };
 

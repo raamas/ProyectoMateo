@@ -11,20 +11,25 @@ class Jugador {
     int id;
     int puntosVida;
     Casilla *posicion;
+
 public:
     Jugador();
-    Jugador(int pv,int id);
+
+    Jugador(int pv, int id);
 
     int getId();
+
     void setId(int id);
 
     int getPuntosVida();
+
     void setPuntosVida(int pv);
 
     Casilla *getPosicion();
+
     void setPosicion(Casilla *casilla);
 
-    void mover();
+    void mover(Casilla *nuevaCasilla, int nuevoPuntosVida);
 };
 
 

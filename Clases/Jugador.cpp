@@ -39,6 +39,17 @@ void Jugador::setPosicion(Casilla *casilla) {
     posicion = casilla;
 }
 
-void Jugador::mover() {
+void Jugador::mover(Casilla *nuevaCasilla, int nuevoPuntosVida) {
     // TODO: Implement mover logic
+    posicion->setIdJugador(-1);
+    posicion->setEfecto(0);
+    nuevaCasilla->setIdJugador(id);
+    posicion = nuevaCasilla;
+
+    if (posicion->getEfecto()==1) {
+        puntosVida=0;
+        return;
+    }
+
+    puntosVida -= 1;
 }
