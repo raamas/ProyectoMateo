@@ -9,7 +9,7 @@ using namespace std;
 int main() {
     Utilidades u;
     int a = 4;
-    Partida p{31, a};
+    Partida p{5, a};
     p.getTablero().printTablero();
     while (p.getGanador()==-1) {
         for (int i = 0; i < a; i++) {
@@ -19,6 +19,8 @@ int main() {
             p.getTablero().printTablero();
         }
     }
+
+
 
     return 0;
 }

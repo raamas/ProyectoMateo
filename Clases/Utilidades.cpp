@@ -10,7 +10,7 @@
 Utilidades::Utilidades() {
 };
 
-// Generate random integer in range [min, max]
+// LA VERDAD ESTO LO HIZO GPT LOL
 int randomInt(int min, int max) {
     static std::random_device rd;
     static std::mt19937 gen(rd());

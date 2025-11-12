@@ -34,19 +34,20 @@ public:
     void setJugadores(vector<Jugador> jugadores);
 
     vector<vector<Casilla> > getCasillas();
+
     Casilla getCasilla(int a, int b);
 
     void setCasillas(vector<vector<Casilla> > casillas);
 
     void printTablero();
 
-    void turnoJugador(int i,Dado &d);
+    void turnoJugador(int i, Dado &d);
 
     friend void generarCasillas(Tablero &t);
 
     friend void generarJugadores(Tablero &t);
 
-    friend void killAllPlayers(Tablero &obj,int i);
+    void ejecutarPremio(int i, Dado &d, int direccion);
 };
 
 
