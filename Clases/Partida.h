@@ -32,7 +32,7 @@ public:
     void setTablero(Tablero t);
 
     Dado &getDado();
-
+    int getGanador();
 
 };
 

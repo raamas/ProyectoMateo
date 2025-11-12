@@ -11,7 +11,7 @@ int main() {
     int a = 4;
     Partida p{31, a};
     p.getTablero().printTablero();
-    while (true) {
+    while (p.getGanador()==-1) {
         for (int i = 0; i < a; i++) {
             cout << "Turno Jugador #" << i + 1 << endl;
             p.getDado().lanzar();

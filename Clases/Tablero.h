@@ -34,6 +34,7 @@ public:
     void setJugadores(vector<Jugador> jugadores);
 
     vector<vector<Casilla> > getCasillas();
+    Casilla getCasilla(int a, int b);
 
     void setCasillas(vector<vector<Casilla> > casillas);
 
@@ -45,7 +46,7 @@ public:
 
     friend void generarJugadores(Tablero &t);
 
-    friend void premio(Tablero &obj,int i);
+    friend void killAllPlayers(Tablero &obj,int i);
 };
 
 

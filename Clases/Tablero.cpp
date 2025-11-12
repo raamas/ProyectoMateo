@@ -87,6 +87,10 @@ vector<vector<Casilla> > Tablero::getCasillas() {
     return casillas;
 }
 
+Casilla Tablero::getCasilla(int a, int b) {
+    return casillas[a][b];
+}
+
 void Tablero::setCasillas(vector<vector<Casilla> > casillas) {
     this->casillas = casillas;
 }
@@ -95,11 +99,14 @@ void Tablero::printTablero() {
     for (int i = 0; i < tamano; i++) {
         for (int j = 0; j < tamano; j++) {
             if (-1 != casillas[i][j].getIdJugador()) {
-                cout << " " << casillas[i][j].getIdJugador() + 1 << " ";
-            } else if (1 == casillas[i][j].getEfecto()) {
-                cout << " P ";
-            } else if (2 == casillas[i][j].getEfecto()) {
-                cout << " C ";
+                if (jugadores[casillas[i][j].getIdJugador()].getPuntosVida() < 1) {
+                    cout << " x ";
+                } else {
+                    cout << " " << casillas[i][j].getIdJugador() + 1 << " ";
+                }
+            } else if (0 != casillas[i][j].getEfecto()) {
+                // Esto hay que eliminarlo
+                cout << " # ";
             } else if (i == j && i == (tamano) / 2) {
                 cout << " W ";
             } else {
@@ -110,6 +117,14 @@ void Tablero::printTablero() {
     }
 }
 
+void killAllPlayers(Tablero &obj, int i) {
+    for (int j = 0; j < obj.cantidadJugadores; j++) {
+        auto jugador = &obj.jugadores[j];
+        if (i != j) {
+            jugador->setPuntosVida(0);
+        }
+    }
+}
 
 void Tablero::turnoJugador(int i, Dado &d) {
     vector<int> direcciones;
@@ -131,30 +146,23 @@ void Tablero::turnoJugador(int i, Dado &d) {
             direcciones.push_back(0);
             continue;
         }
-        if (j == 0 &&
-            (coordenadas[0] - 1) < 0) {
-            //ya esta arriba
+        if (j == 0 && (coordenadas[0] - 1) < 0) {
             direcciones.push_back(0);
             continue;
         }
 
-        if (j == 1 &&
-            (coordenadas[0] + 1) > tamano - 1) {
-            // ya esta abajo
-
+        if (j == 1 && (coordenadas[0] + 1) > tamano - 1) {
             direcciones.push_back(0);
             continue;
         }
 
-        if (j == 2 &&
-            (coordenadas[1] - 1) < 0) {
+        if (j == 2 && (coordenadas[1] - 1) < 0) {
             // ya esta a la izq
             direcciones.push_back(0);
             continue;
         }
 
-        if (j == 3 &&
-            (coordenadas[1] + 1) > tamano - 1) {
+        if (j == 3 && (coordenadas[1] + 1) > tamano - 1) {
             // ya esta a la derecha
             direcciones.push_back(0);
             continue;
@@ -165,7 +173,7 @@ void Tablero::turnoJugador(int i, Dado &d) {
         }
         direcciones.push_back(1);
     }
-    cout << ")" << endl;
+    // cout << ")" << endl;
 
     if (direcciones[0] == 1) {
         cout << "1. +1 arriba" << endl;
@@ -194,28 +202,68 @@ void Tablero::turnoJugador(int i, Dado &d) {
             nuevaCasilla = &casillas[coordenadas[0] - 1][coordenadas[1]];
             jugador->mover(nuevaCasilla, d.getDirecciones()[0]);
             if (nuevaCasilla->getEfecto() == 2) {
-                //premio(*this, i);
+                cout << "1. Eliminar a los demas jugadores" << endl;
+                cout << "2. Sumarse " << d.getDirecciones()[0] << " puntos de vida" << endl;
+                int premio;
+                cin >> premio;
+                if (1 == premio) {
+                    killAllPlayers(*this, i);
+                    return;
+                }
+                if (2 == premio) {
+                    jugador->setPuntosVida(d.getDirecciones()[0]);
+                }
             }
             break;
         case 2: //Abajo
             nuevaCasilla = &casillas[coordenadas[0] + 1][coordenadas[1]];
             jugador->mover(nuevaCasilla, d.getDirecciones()[1]);
             if (nuevaCasilla->getEfecto() == 2) {
-                //premio(*this, i);
+                cout << "1. Eliminar a los demas jugadores" << endl;
+                cout << "2. Sumarse " << d.getDirecciones()[1] << " puntos de vida" << endl;
+                int premio;
+                cin >> premio;
+                if (1 == premio) {
+                    killAllPlayers(*this, i);
+                    return;
+                }
+                if (2 == premio) {
+                    jugador->setPuntosVida(d.getDirecciones()[1]);
+                }
             }
             break;
         case 3: //izquierda
             nuevaCasilla = &casillas[coordenadas[0]][coordenadas[1] - 1];
             jugador->mover(nuevaCasilla, d.getDirecciones()[2]);
             if (nuevaCasilla->getEfecto() == 2) {
-                //premio(*this, i);
+                cout << "1. Eliminar a los demas jugadores" << endl;
+                cout << "2. Sumarse " << d.getDirecciones()[2] << " puntos de vida" << endl;
+                int premio;
+                cin >> premio;
+                if (1 == premio) {
+                    killAllPlayers(*this, i);
+                    return;
+                }
+                if (2 == premio) {
+                    jugador->setPuntosVida(d.getDirecciones()[2]);
+                }
             }
             break;
         case 4:
             nuevaCasilla = &casillas[coordenadas[0]][coordenadas[1] + 1];
             jugador->mover(nuevaCasilla, d.getDirecciones()[2]);
             if (nuevaCasilla->getEfecto() == 2) {
-                //premio(*this, i);
+                cout << "1. Eliminar a los demas jugadores" << endl;
+                cout << "2. Sumarse " << d.getDirecciones()[3] << " puntos de vida" << endl;
+                int premio;
+                cin >> premio;
+                if (1 == premio) {
+                    killAllPlayers(*this, i);
+                    return;
+                }
+                if (2 == premio) {
+                    jugador->setPuntosVida(d.getDirecciones()[3]);
+                }
             }
             break;
     }
