@@ -5,9 +5,15 @@
 #include "Tablero.h"
 
 #include <iostream>
-
+#include <cmath>
 #include "Utilidades.h"
 
+
+/*
+ * 15*1.5=22
+ * 2*23=46
+ * 4.5*31=140
+ */
 void generarCasillas(Tablero &t) {
     Utilidades u;
     for (int i = 0; i < t.tamano; i++) {
@@ -16,7 +22,9 @@ void generarCasillas(Tablero &t) {
             Casilla c;
             c.setCoordenadas({i, j});
             if (j != i || j == t.tamano / 2) {
-                c.setEfecto(u.getRandomNumber(0, t.tamano * 3.8));
+                int k = log(pow(2, 3 * t.tamano));
+                cout << "K: " << k << endl;
+                c.setEfecto(u.getRandomNumber(0, k));
             }
             temp.push_back(c);
         }
@@ -67,6 +75,7 @@ int Tablero::getTamano() {
 
 void Tablero::setTamano(int t) {
     tamano = t;
+    generarCasillas(*this);
 }
 
 int Tablero::getCantidadJugadores() {
@@ -75,6 +84,7 @@ int Tablero::getCantidadJugadores() {
 
 void Tablero::setCantidadJugadores(int cj) {
     this->cantidadJugadores = cj;
+    generarJugadores(*this);
 }
 
 vector<Jugador> Tablero::getJugadores() {

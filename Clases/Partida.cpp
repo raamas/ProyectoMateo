@@ -22,6 +22,7 @@ int Partida::getCantidadJugadores() {
 
 void Partida::setCantidadJugadores(int cj) {
     cantidadJugadores = cj;
+    tablero.setCantidadJugadores(cj);
 }
 
 int Partida::getDificultad() {
@@ -30,6 +31,8 @@ int Partida::getDificultad() {
 
 void Partida::setDificultad(int d) {
     dificultad = d;
+    tablero.setTamano(d);
+    dado.setMax(d);
 }
 
 Tablero &Partida::getTablero() {
