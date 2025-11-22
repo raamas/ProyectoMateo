@@ -1,1 +1,3 @@
-AVERIGUE COMO HACER PARA QUE EN LA FUNCION generarJugadores() CADA JUGADOR APAREZCA EN UNA ESQUINA DIFERENTE.
+# Esta mierda funciona bien en clion,
+## Pero no en consola
+- lol

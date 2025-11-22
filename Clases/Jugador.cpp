@@ -15,6 +15,7 @@ Jugador::Jugador(int pv, int id) {
     this->id = id;
     puntosVida = pv;
     posicion = nullptr;
+    dado.setMax(pv);
 }
 
 int Jugador::getId() {
@@ -42,6 +43,14 @@ Casilla *Jugador::getPosicion() {
 
 void Jugador::setPosicion(Casilla *casilla) {
     posicion = casilla;
+}
+
+Dado &Jugador::getDado() {
+    return this->dado;
+}
+
+void Jugador::setDado(Dado d) {
+    this -> dado = d;
 }
 
 void Jugador::mover(Casilla *nuevaCasilla, int nuevoPuntosVida) {

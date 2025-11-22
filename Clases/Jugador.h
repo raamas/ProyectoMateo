@@ -5,12 +5,13 @@
 #ifndef PROYECTOMATEO_JUGADOR_H
 #define PROYECTOMATEO_JUGADOR_H
 #include "Casilla.h"
-
+#include "Dado.h"
 
 class Jugador {
     int id;
     int puntosVida;
     Casilla *posicion;
+    Dado dado;
 
 public:
     Jugador();
@@ -28,6 +29,10 @@ public:
     Casilla *getPosicion();
 
     void setPosicion(Casilla *casilla);
+
+    Dado &getDado();
+
+    void setDado(Dado d);
 
     void mover(Casilla *nuevaCasilla, int nuevoPuntosVida);
 };

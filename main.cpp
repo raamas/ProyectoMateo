@@ -4,9 +4,11 @@
 #include "Clases/Tablero.h"
 #include "Clases/Casilla.h"
 #include "Clases/Utilidades.h"
+#include <cstdlib>
 using namespace std;
 
 int main() {
+    // system("CLS");
     int opc;
     Utilidades u;
     int cantidadJugadores, dificultad;
@@ -27,6 +29,7 @@ int main() {
             cout << "2. Tablero 23x23" << endl;
             cout << "3. Tablero 31x31" << endl;
             cin >> dificultad;
+            // system("CLS");
 
             if (dificultad == 1) {
                 dificultad = 15;
@@ -37,18 +40,20 @@ int main() {
             }
             p.setDificultad(dificultad);
             p.setCantidadJugadores(cantidadJugadores);
-            p.getTablero().printTablero();
+
             while (p.getGanador() == -1) {
                 for (int i = 0; i < cantidadJugadores; i++) {
-                    cout << "Turno Jugador #" << i + 1 << endl;
-                    p.getDado().lanzar();
-                    p.getTablero().turnoJugador(i, p.getDado());
+                    // system("CLS");
                     p.getTablero().printTablero();
+                    cout << "Turno Jugador #" << i + 1 << endl;
+                    p.getTablero().turnoJugador(i);
+                    u.guardarPartida(&p);
                 }
             }
             cout << "EL GANADOR ES EL JUGADOR #" << p.getGanador() + 1 << " FELICITACIONES!!!" << endl;
             break;
         case 2:
+            // p = cargarPartida();
             break;
         case 3:
             cout << "Saliendo..." << endl;

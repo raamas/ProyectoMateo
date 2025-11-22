@@ -15,25 +15,26 @@ class Partida {
     int cantidadJugadores;
     int dificultad;
     Tablero tablero;
-    Dado dado;
-
     int idGanador;
+
 public:
     Partida();
+
     Partida(int d, int cj);
 
     int getCantidadJugadores();
+
     void setCantidadJugadores(int cj);
 
     int getDificultad();
+
     void setDificultad(int d);
 
     Tablero &getTablero();
+
     void setTablero(Tablero t);
 
-    Dado &getDado();
     int getGanador();
-
 };
 
 

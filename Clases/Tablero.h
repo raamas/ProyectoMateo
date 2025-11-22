@@ -41,13 +41,13 @@ public:
 
     void printTablero();
 
-    void turnoJugador(int i, Dado &d);
+    void turnoJugador(int i);
 
     friend void generarCasillas(Tablero &t);
 
     friend void generarJugadores(Tablero &t);
 
-    void ejecutarPremio(int i, Dado &d, int direccion);
+    void ejecutarPremio(int i,Dado pe, int direccion);
 };
 
 

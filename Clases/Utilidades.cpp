@@ -21,3 +21,19 @@ int randomInt(int min, int max) {
 int Utilidades::getRandomNumber(int min, int max) {
     return randomInt(min, max);
 }
+
+//Esto no lo hizo gpt
+void Utilidades::guardarPartida(Partida *p) {
+    //CANTIDADJUGADORES;DIFICULTAD;IDGANADOR;PIDJUGADOR;PUNTOSVIDAJUGADOR;MAXDADOJUGADOR;CORDENADASA,CORDENADASB;EFECTOCASILLAJUGADOR;
+    ofstream writeFile("../partidas/test.txt");
+    writeFile << p->getCantidadJugadores() << ";"
+            << p->getDificultad() << ";"
+            << "P" << p->getGanador() << ";";
+    for (auto player: p->getTablero().getJugadores()) {
+        writeFile << "P" << player.getId() << ";"
+                << player.getPuntosVida() << ";"
+                << player.getDado().getMax() << ";"
+                << player.getPosicion()->getCoordenadas()[0] << "," << player.getPosicion()->getCoordenadas()[1] << ";"
+                << player.getPosicion()->getEfecto() << ";";
+    }
+};

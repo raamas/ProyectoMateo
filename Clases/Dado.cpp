@@ -31,6 +31,6 @@ vector<int> Dado::getDirecciones() {
 void Dado::lanzar() {
     Utilidades u;
     for (auto &d :direcciones) { //Cambia el contenido dentro del arreglo direcciones a 4 numeros aleatorios
-        d = u.getRandomNumber(0,max);
+        d = u.getRandomNumber(1,max);
     }
 }

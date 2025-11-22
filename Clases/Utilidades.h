@@ -4,12 +4,14 @@
 
 #ifndef PROYECTOMATEO_UTILIDADES_H
 #define PROYECTOMATEO_UTILIDADES_H
-
+#include "Partida.h"
+#include <fstream>
 
 class Utilidades {
 public:
     Utilidades();
     int getRandomNumber(int min, int max);
+    void guardarPartida(Partida *p);
 };
 
 
