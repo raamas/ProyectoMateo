@@ -5,9 +5,15 @@
 #include "Tablero.h"
 
 #include <iostream>
-
+#include <cmath>
 #include "Utilidades.h"
 
+
+/*
+ * 15*1.5=22
+ * 2*23=46
+ * 4.5*31=140
+ */
 void generarCasillas(Tablero &t) {
     Utilidades u;
     for (int i = 0; i < t.tamano; i++) {
@@ -16,7 +22,8 @@ void generarCasillas(Tablero &t) {
             Casilla c;
             c.setCoordenadas({i, j});
             if (j != i || j == t.tamano / 2) {
-                c.setEfecto(u.getRandomNumber(0, t.tamano * 3.8));
+                int k = log(pow(2, 3 * t.tamano));
+                c.setEfecto(u.getRandomNumber(0, k));
             }
             temp.push_back(c);
         }
@@ -67,6 +74,10 @@ int Tablero::getTamano() {
 
 void Tablero::setTamano(int t) {
     tamano = t;
+    generarCasillas(*this);
+    for (auto jugador: jugadores) {
+        jugador.getDado().setMax(t);
+    }
 }
 
 int Tablero::getCantidadJugadores() {
@@ -75,6 +86,7 @@ int Tablero::getCantidadJugadores() {
 
 void Tablero::setCantidadJugadores(int cj) {
     this->cantidadJugadores = cj;
+    generarJugadores(*this);
 }
 
 vector<Jugador> Tablero::getJugadores() {
@@ -119,7 +131,7 @@ void Tablero::printTablero() {
     }
 }
 
-void Tablero::ejecutarPremio(int i, Dado &d, int direccion) {
+void Tablero::ejecutarPremio(int i,Dado pe, int direccion) {
     /*
      * ESTA FUNCION EJECUTA LA PREMIACION PARA EL JUGADOR QUE LLEGUE A UNA CASILLA CON ESTE EFECTO.
      * PRIMERO SE PRESENTAN LAS OPCIONES AL JUGADOR DE: ELIMINAR A LOS DEMAS JUGADORES Y GANAR AUTOMATICAMENTE, O AÑADIRSE PUNTOS DE VIDA ACORDE AL NUMERO ARROJADO POR EL DADO
@@ -127,7 +139,7 @@ void Tablero::ejecutarPremio(int i, Dado &d, int direccion) {
      * DE OTRA MANERA SIMPLEMENTE SE SUMA A LOS PUNTOS DE VIDA DEL JUGADOR LA CANTIDAD OBTENIDA POR MEDIO DEL OBJETO dado
      */
     cout << "1. Eliminar a los demas jugadores" << endl;
-    cout << "2. Sumarse " << d.getDirecciones()[direccion] << " puntos de vida" << endl;
+    cout << "2. Sumarse " << pe.getDirecciones()[direccion] << " puntos de vida" << endl;
     int premio;
     cin >> premio;
     if (1 == premio) {
@@ -140,11 +152,12 @@ void Tablero::ejecutarPremio(int i, Dado &d, int direccion) {
         return;
     }
     if (2 == premio) {
-        jugadores[i].setPuntosVida(jugadores[i].getPuntosVida() + d.getDirecciones()[direccion]);
+        jugadores[i].setPuntosVida(jugadores[i].getPuntosVida() + pe.getDirecciones()[direccion]);
+        jugadores[i].getDado().setMax(jugadores[i].getPuntosVida());
     }
 }
 
-void Tablero::turnoJugador(int i, Dado &d) {
+void Tablero::turnoJugador(int i) {
     /*
      * ESTA FUNCION HACE LA MAYOR PARTE DE LA LOGICA INVOLUCRADA EN MOVER LOS JUGADORES, EJECUTAR LOS PREMIOS Y CASTIGOS, Y ACTUALIZAR LAS CASILLAS
      * RECIBE int i QUE ES EL ID DEL JUGADOR QUE TIENE EL TURNO, Y Dado &d QUE ES LA DIRECCION EN MEMORIA DEL OBJETO DADO ASIGNADO A LA PARTIDA
@@ -166,6 +179,9 @@ void Tablero::turnoJugador(int i, Dado &d) {
      */
     vector<int> direcciones;
     auto jugador = &jugadores[i];
+    Dado pe = jugadores[i].getDado();
+    pe.lanzar();
+
     if (jugador->getPuntosVida() <= 0) {
         jugador->setPuntosVida(0);
         return;
@@ -177,7 +193,7 @@ void Tablero::turnoJugador(int i, Dado &d) {
 
     cout << "(";
     for (int j = 0; j < 4; j++) {
-        auto direccion = d.getDirecciones()[j];
+        auto direccion = pe.getDirecciones()[j];
         cout << " " << direccion << " ";
         if (direccion == 0) {
             direcciones.push_back(0);
@@ -227,7 +243,7 @@ void Tablero::turnoJugador(int i, Dado &d) {
     if (direcciones[3] == 1) {
         cout << "4. +1 a la derecha" << endl;
     }
-    if (direcciones == vector<int>{0, 0, 0, 0}) {
+    if (direcciones == vector{0, 0, 0, 0}) {
         cout << "No hay movimientos validos. " << endl;
         return;
     }
@@ -236,31 +252,55 @@ void Tablero::turnoJugador(int i, Dado &d) {
 
     switch (opc) {
         case 1: //Arriba
+            //guard
+            if (direcciones[0] == 0) {
+                cout << "Esta direccion no es valida." << endl;
+                cout << "Turno perdido" << endl;
+                return;
+            }
             nuevaCasilla = &casillas[coordenadas[0] - 1][coordenadas[1]];
-            jugador->mover(nuevaCasilla, d.getDirecciones()[0]);
+            jugador->mover(nuevaCasilla, pe.getDirecciones()[0]);
             if (nuevaCasilla->getEfecto() == 2) {
-                ejecutarPremio(i, d, 0);
+                ejecutarPremio(i, pe, 0);
             }
             break;
         case 2: //Abajo
+            //guard
+            if (direcciones[1]==0) {
+                cout << "Esta direccion no es valida." << endl;
+                cout << "Turno perdido" << endl;
+                return;
+            }
             nuevaCasilla = &casillas[coordenadas[0] + 1][coordenadas[1]];
-            jugador->mover(nuevaCasilla, d.getDirecciones()[1]);
+            jugador->mover(nuevaCasilla, pe.getDirecciones()[1]);
             if (nuevaCasilla->getEfecto() == 2) {
-                ejecutarPremio(i, d, 1);
+                ejecutarPremio(i, pe, 1);
             }
             break;
         case 3: //izquierda
+            //guard
+            if (direcciones[2]==0) {
+                cout << "Esta direccion no es valida." << endl;
+                cout << "Turno perdido" << endl;
+                return;
+            }
             nuevaCasilla = &casillas[coordenadas[0]][coordenadas[1] - 1];
-            jugador->mover(nuevaCasilla, d.getDirecciones()[2]);
+            jugador->mover(nuevaCasilla, pe.getDirecciones()[2]);
             if (nuevaCasilla->getEfecto() == 2) {
-                ejecutarPremio(i, d, 2);
+                ejecutarPremio(i, pe, 2);
             }
             break;
         case 4:
+            //guard
+            if (direcciones[3]==0) {
+                cout << "Esta direccion no es valida." << endl;
+                cout << "Turno perdido" << endl;
+                return;
+            }
             nuevaCasilla = &casillas[coordenadas[0]][coordenadas[1] + 1];
-            jugador->mover(nuevaCasilla, d.getDirecciones()[2]);
+            jugador->mover(nuevaCasilla, pe.getDirecciones()[2]);
             if (nuevaCasilla->getEfecto() == 2) {
-                ejecutarPremio(i, d, 3);
+                ejecutarPremio(i, pe, 3);
             }
             break;
     }
