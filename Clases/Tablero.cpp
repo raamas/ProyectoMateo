@@ -131,7 +131,7 @@ void Tablero::printTablero() {
     }
 }
 
-void Tablero::ejecutarPremio(int i,Dado pe, int direccion) {
+void Tablero::ejecutarPremio(int i, Dado pe, int direccion) {
     /*
      * ESTA FUNCION EJECUTA LA PREMIACION PARA EL JUGADOR QUE LLEGUE A UNA CASILLA CON ESTE EFECTO.
      * PRIMERO SE PRESENTAN LAS OPCIONES AL JUGADOR DE: ELIMINAR A LOS DEMAS JUGADORES Y GANAR AUTOMATICAMENTE, O AÑADIRSE PUNTOS DE VIDA ACORDE AL NUMERO ARROJADO POR EL DADO
@@ -255,7 +255,8 @@ void Tablero::turnoJugador(int i) {
             //guard
             if (direcciones[0] == 0) {
                 cout << "Esta direccion no es valida." << endl;
-                cout << "Turno perdido" << endl;
+                cout << "Turno perdido. -1 puntos de vida." << endl;
+                jugador->setPuntosVida(jugador->getPuntosVida() - 1);
                 return;
             }
             nuevaCasilla = &casillas[coordenadas[0] - 1][coordenadas[1]];
@@ -266,9 +267,10 @@ void Tablero::turnoJugador(int i) {
             break;
         case 2: //Abajo
             //guard
-            if (direcciones[1]==0) {
+            if (direcciones[1] == 0) {
                 cout << "Esta direccion no es valida." << endl;
-                cout << "Turno perdido" << endl;
+                cout << "Turno perdido. -1 puntos de vida." << endl;
+                jugador->setPuntosVida(jugador->getPuntosVida() - 1);
                 return;
             }
             nuevaCasilla = &casillas[coordenadas[0] + 1][coordenadas[1]];
@@ -279,9 +281,10 @@ void Tablero::turnoJugador(int i) {
             break;
         case 3: //izquierda
             //guard
-            if (direcciones[2]==0) {
+            if (direcciones[2] == 0) {
                 cout << "Esta direccion no es valida." << endl;
-                cout << "Turno perdido" << endl;
+                cout << "Turno perdido. -1 puntos de vida." << endl;
+                jugador->setPuntosVida(jugador->getPuntosVida() - 1);
                 return;
             }
             nuevaCasilla = &casillas[coordenadas[0]][coordenadas[1] - 1];
@@ -292,9 +295,10 @@ void Tablero::turnoJugador(int i) {
             break;
         case 4:
             //guard
-            if (direcciones[3]==0) {
+            if (direcciones[3] == 0) {
                 cout << "Esta direccion no es valida." << endl;
-                cout << "Turno perdido" << endl;
+                cout << "Turno perdido. -1 puntos de vida." << endl;
+                jugador->setPuntosVida(jugador->getPuntosVida() - 1);
                 return;
             }
             nuevaCasilla = &casillas[coordenadas[0]][coordenadas[1] + 1];

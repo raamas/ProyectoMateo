@@ -8,7 +8,6 @@
 using namespace std;
 
 int main() {
-    // system("CLS");
     int opc;
     Utilidades u;
     int cantidadJugadores, dificultad;
@@ -29,7 +28,6 @@ int main() {
             cout << "2. Tablero 23x23" << endl;
             cout << "3. Tablero 31x31" << endl;
             cin >> dificultad;
-            // system("CLS");
 
             if (dificultad == 1) {
                 dificultad = 15;
@@ -43,7 +41,6 @@ int main() {
 
             while (p.getGanador() == -1) {
                 for (int i = 0; i < cantidadJugadores; i++) {
-                    // system("CLS");
                     p.getTablero().printTablero();
                     cout << "Turno Jugador #" << i + 1 << endl;
                     p.getTablero().turnoJugador(i);
