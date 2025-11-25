@@ -13,7 +13,6 @@ Partida::Partida(int d, int cj) {
     dificultad = d;
     cantidadJugadores = cj;
     tablero = {d, cj};
-    dado = Dado(d);
 }
 
 int Partida::getCantidadJugadores() {
@@ -22,6 +21,7 @@ int Partida::getCantidadJugadores() {
 
 void Partida::setCantidadJugadores(int cj) {
     cantidadJugadores = cj;
+    tablero.setCantidadJugadores(cj);
 }
 
 int Partida::getDificultad() {
@@ -30,6 +30,7 @@ int Partida::getDificultad() {
 
 void Partida::setDificultad(int d) {
     dificultad = d;
+    tablero.setTamano(d);
 }
 
 Tablero &Partida::getTablero() {
@@ -40,12 +41,6 @@ void Partida::setTablero(Tablero t) {
     tablero = t;
 }
 
-Dado &Partida::getDado() {
-    /*
-     * DEVUELVE LA DIRECCION EN MEMORIA DEL OBJETO DADO DE CADA PARTIDA
-     */
-    return dado;
-}
 
 int Partida::getGanador() {
     /*

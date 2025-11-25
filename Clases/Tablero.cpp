@@ -102,7 +102,7 @@ vector<vector<Casilla> > Tablero::getCasillas() {
 }
 
 Casilla Tablero::getCasilla(int a, int b) {
-    return casillas[a][b];
+    return casillas.at(a).at(b);
 }
 
 void Tablero::setCasillas(vector<vector<Casilla> > casillas) {
