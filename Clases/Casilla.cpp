@@ -4,6 +4,8 @@
 
 #include "Casilla.h"
 
+#include <iostream>
+
 Casilla::Casilla() {
     efecto = 0;
     idJugador = -1;

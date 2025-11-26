@@ -36,6 +36,7 @@ public:
     vector<vector<Casilla> > getCasillas();
 
     Casilla getCasilla(int a, int b);
+    Casilla *getCasillaAddress(int a, int b);
 
     void setCasillas(vector<vector<Casilla> > casillas);
 

@@ -9,6 +9,8 @@
 #include "Dado.h"
 #include "Jugador.h"
 #include "Tablero.h"
+#include <fstream>
+
 using namespace std;
 
 class Partida {
@@ -35,6 +37,10 @@ public:
     void setTablero(Tablero t);
 
     int getGanador();
+
+    void setGanador(int id);
+
+    void cargarArchivo(string route = "../partidas/test.txt");
 };
 
 

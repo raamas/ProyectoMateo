@@ -7,19 +7,26 @@
 #include <cstdlib>
 using namespace std;
 
+void jugar(Partida &p);
+
 int main() {
-    // system("CLS");
+    // system("CLS")
+
     int opc;
     Utilidades u;
+
+    cout << u.split("Hello World", ' ').size() << " this here buddy" << endl;
+
     int cantidadJugadores, dificultad;
     Partida p;
 
     cout << "**CARRERA AL CENTRO**" << endl;
     cout << "1. Nueva partida" << endl;
-    // cout << "2. Cargar partida" << endl;
+    cout << "2. Cargar partida" << endl;
     cout << "3. Salir" << endl;
-    cin >> opc;
+    // cin >> opc;
 
+    opc = 2;
     switch (opc) {
         case 1:
             cout << "Ingrese el numero de jugadores que participaran (1-4)" << endl;
@@ -53,7 +60,9 @@ int main() {
             cout << "EL GANADOR ES EL JUGADOR #" << p.getGanador() + 1 << " FELICITACIONES!!!" << endl;
             break;
         case 2:
-            // p = cargarPartida();
+            p = {};
+            p.cargarArchivo();
+            jugar(p);
             break;
         case 3:
             cout << "Saliendo..." << endl;
@@ -65,4 +74,20 @@ int main() {
 
 
     return 0;
+}
+
+void jugar(Partida &p) {
+    Utilidades u;
+
+    cout << p.getGanador() << endl;
+
+    while (p.getGanador() == -1) {
+        for (int i = 0; i < p.getCantidadJugadores(); i++) {
+            p.getTablero().printTablero();
+            cout << "Turno Jugador #" << i + 1 << endl;
+            p.getTablero().turnoJugador(i);
+            u.guardarPartida(&p);
+        }
+    }
+    cout << "EL GANADOR ES EL JUGADOR #" << p.getGanador() + 1 << " FELICITACIONES!!!" << endl;
 }

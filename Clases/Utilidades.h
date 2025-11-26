@@ -12,6 +12,9 @@ public:
     Utilidades();
     int getRandomNumber(int min, int max);
     void guardarPartida(Partida *p);
+    Partida cargarPartida();
+    vector<string> split(string s, char c);
+
 };
 
 
