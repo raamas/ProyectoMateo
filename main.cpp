@@ -24,9 +24,9 @@ int main() {
     cout << "1. Nueva partida" << endl;
     cout << "2. Cargar partida" << endl;
     cout << "3. Salir" << endl;
-    // cin >> opc;
+    cin >> opc;
 
-    opc = 2;
+    // opc = 2;
     switch (opc) {
         case 1:
             cout << "Ingrese el numero de jugadores que participaran (1-4)" << endl;
